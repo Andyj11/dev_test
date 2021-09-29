@@ -1,0 +1,98 @@
+<!-- VISTA LISTA HEREDANDO DEL TEMPLATE BASE -->
+{% extends "geo/base_template.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %} 
+
+<h1 class="display-4">Lista de usuarios</h1>
+<div class="table-responsive">
+    <table class="table table-hover" id="myTable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Estado Geo</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for key, value in values.items %}
+            <tr> 
+                <th scope="row">{{ value.id }}</th>
+                <td>{{ value.nombre }}</td>
+                <td>{{ value.apellido }}</td>
+                <td>{{ value.direccion }}</td>
+                <td>{{ value.estadogeo }}</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal_update-{{ forloop.counter }}">GEO</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal_delete-{{ forloop.counter }}">Eliminar</button>
+                    </div>
+                    <!-- <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal-{{ forloop.counter }}" type="button">Eliminar</button>  -->
+                    
+                    <form action="{% url 'geo:geocodificar_base' %}" method="post">
+                        {% csrf_token %}    
+                        <!-- Modal update -->
+                        <div class="modal fade" id="myModal_update-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle" style="color:black">Nombre: {{value.nombre}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="color:black">
+                                        <Label class="form-label" for='latitude'>Latitud: </Label>
+                                        <input class="form-control" type="text" name="latitude" id="latitude" required><br/>
+                                        <Label class="form-label" for='longitude'>Longitud: </Label>
+                                        <input class="form-control" type="text" name="longitude" id="longitude" required><br/>                                        
+                                        <input type="hidden" name="key" value="{{ key }}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" value="Save" onclick="form_submit()">GEO Referenciar</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ModalEnd update-->   
+                    </form>
+
+                    <form action="{% url 'geo:borrar' %}" method="post">
+                        {% csrf_token %}                        
+                        <!-- Modal delete -->
+                        <div class="modal fade" id="myModal_delete-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle" style="color:black">Nombre: {{value.nombre}}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="color:black">
+                                        Esta seguro que desea eleminar este registro?
+                                        <input type="hidden" name="key" value="{{ key }}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary" value="Save" onclick="form_submit()">Sí, estoy seguro</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ModalEnd delete-->     
+                    </form>   
+                </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
