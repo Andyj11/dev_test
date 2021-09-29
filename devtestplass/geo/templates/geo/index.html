@@ -1,0 +1,18 @@
+<!-- VISTA INDEX HEREDANDO DEL TEMPLATE BASE -->
+{% extends "geo/base_template.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block content %} 
+    <h1 class="display-4">Localización usuarios</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {{ map|safe}}
+            </div>
+        </div>
+    </div>
+    
+
+{% endblock %}

@@ -1,0 +1,27 @@
+<!-- VISTA CREAR HEREDANDO DEL TEMPLATE BASE -->
+{% extends "geo/base_template.html" %}
+
+{% block title %} Crear {% endblock %}
+
+{% block content %} 
+
+<h1 class="display-4">Crear</h1>
+<form method="POST">
+    {% csrf_token %}     
+    <div class="mb-3">
+        <Label class="form-label" for='id'>ID: </Label>
+        <input class="form-control" type="number" name="id" id="id" required><br/>
+        <Label class="form-label" for='name'>Nombre: </Label>
+        <input class="form-control" type="text" name="name" id="name"><br/>
+        <Label class="form-label" for='surname'>Apellido: </Label>
+        <input class="form-control" type="text" name="surname" id="surname"><br/>
+        <Label class="form-label" for='address'>Dirección: </Label>
+        <input class="form-control" type="text" name="address" id="address"><br/>
+        <Label class="form-label" for='city'>Ciudad: </Label>
+        <input class="form-control" type="text" name="city" id="city"><br/>
+        <input class="btn btn-primary" type="submit" value="Create">
+    </div>
+</form>
+
+{% endblock %}
+
